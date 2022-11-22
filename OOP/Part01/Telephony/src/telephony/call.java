@@ -2,54 +2,46 @@ package telephony;
 
 /**
 * @author HenryCeresetti
+* @author OrlandoJunior
+* @author Luis
 **/
 
-import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class call {
-    protected int callDuration;
-    protected GregorianCalendar callDate;
-    protected String convertToString;
-    
-    public call(GregorianCalendar callDate, int callDuration) {
+    private Date callDate;
+    private int callDuration;
+
+    public call(Date callDate, int callDuration) {
+        super();
         this.callDate = callDate;
         this.callDuration = callDuration;
     }
-    
-    public void setCallDate(GregorianCalendar callDate) {
+
+    public void setCallDate(Date callDate) {
         this.callDate = callDate;
     }
-    
+
     public void setCallDuration(int callDuration) {
         this.callDuration = callDuration;
     }
-    
-    public GregorianCalendar getCallDate(GregorianCalendar callDate) {
+
+    public Date getCallDate() {
         return callDate;
     }
-    
-    public int getCallDuration(int callDuration) {
+
+    public int getCallDuration() {
         return callDuration;
     }
-    
-    public static String convertToString(GregorianCalendar callDate) {
+
+    public String convertToString() {
         SimpleDateFormat dateFormatation = new SimpleDateFormat("dd-MM-yyyy");
-        String formatedDate = dateFormatation.format(callDate.getTime());
-        System.out.print("Formated date: " + formatedDate);
-        return formatedDate;
-    }
-    
-    public static void main(String[] args) {
-        GregorianCalendar grgCal = new GregorianCalendar();
-        grgCal.set(GregorianCalendar.YEAR, 1995);
         
-        grgCal.set(GregorianCalendar.MONTH, 05);
-        
-        grgCal.set(GregorianCalendar.DATE, 23);
-        
-        System.out.println("Gregorian date: " + grgCal.getTime());
-        
-        convertToString(grgCal);
+        String formatedDate = dateFormatation.format(callDate);
+
+        System.out.println("Call Date: " + formatedDate + "Call Duration: " + callDuration + " minutes.");
+
+        return "The registered call is from the following date: " + formatedDate + " and its duration is from: " + callDuration + " minutes.";
     }
 }

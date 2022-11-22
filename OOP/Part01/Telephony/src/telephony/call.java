@@ -34,7 +34,8 @@ public class call {
     public int getCallDuration() {
         return callDuration;
     }
-
+    
+    @Override
     public String convertToString() {
         SimpleDateFormat dateFormatation = new SimpleDateFormat("dd-MM-yyyy");
         

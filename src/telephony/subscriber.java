@@ -1,15 +1,14 @@
 package telephony;
 
 /**
-* @author HenryCeresetti
-**/
+ * @author HenryCeresetti
+ * @author OrlandoJunior
+ */
 
 public class subscriber {
     private long clientCPF;
     private String clientName;
     private String clientNum;
-    protected call[] calls;
-    protected int clientNumCalls;
     
     public subscriber(long clientCPF, String clientName, String clientNum) {
         this.clientCPF = clientCPF;
@@ -42,8 +41,8 @@ public class subscriber {
     }
     
     public static String convertToString(long clientCPF, String clientName, String clientNum) {
-        String subscriberData = "The subscriber attributes are:\nSubscriber Name: " + clientName + "Subscriber CPF: " + clientCPF + "Subscriber Phone Number: " + clientNum;
-        System.out.print(subscriberData);
+        String subscriberData = "The subscriber attributes are: " + "Subscriber: " + clientName + " Subscriber IE/CPF: " + clientCPF + " Subscriber Number: " + clientNum;
+        System.out.println(subscriberData);
         return subscriberData;
     }
 }

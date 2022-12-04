@@ -5,110 +5,92 @@ package telephony;
  * @author OrlandoJunior
  */
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class prePaid extends subscriber {
-    private int rechargeNum;
-    private float rechargeCredits;
+    protected float rechargeCredits;
+    protected recharge[] recharges;
+    private recharge[][] recharge;
+    private int rechargesQuantity;
     
-    public prePaid(long clientCPF, String clientName, int clientNum) {
-        super(clientCPF, clientName, clientNum);
-        this.rechargeNum = rechargeNum;
-        this.rechargeCredits = rechargeCredits;
+    public prePaid(long clientCPF, String clientName, int clientTel) {
+        super(clientTel, clientCPF, clientName);
+        this.recharges = recharge[300];
     }
     
-    public void setRechargeNum(int rechargeNum) {
-        this.rechargeNum = rechargeNum;
-    }
-    
-    public void setRechargeCredits(float rechargeCredits) {
-        this.rechargeCredits = rechargeCredits;
-    }
-    
-    public int getRechargeNum() {
-        return rechargeNum;
-    }
-    
-    public float getRechargeCredits() {
-        return rechargeCredits;
+    public int getRechargesQuantity() {
+        return rechargesQuantity;
     }
     
     public void makeCall(Date callDate, int callDuration) {
         int i = 0;
         
         float noCredit = callDuration * 1.45f;
-        this.callsNum++;
+        this.callsQuantity++;
         
-        while (i < callsNum) {
-            if (this.calls[i] == null && this.rechargeCredits > noCredit) {
+        while (i < callsQuantity) {
+            if (this.calls[i] == null && this.rechargesQuantity > noCredit) {
                 call call = new call(callDate, callDuration);
                 this.calls[i] = call;
                 this.rechargeCredits = this.rechargeCredits - noCredit;
             } else {
-                System.out.println("You do not have credits to make this call.");
+                this.callsQuantity--;
+                System.out.println("You do not have sufficient credits to make this call.");
             }
         }
     }
     
-    public void recharge(Date callDate, float callValue) {
+    public void recharge(Date callDate, float callCost) {
         int i = 0;
         
-        this.rechargeNum++;
+        this.rechargesQuantity++;
         
-        while (i < rechargeNum) {
+        while (i < rechargesQuantity) {
             if (this.recharges[i] == null) {
-                recharge rcrg = new recharge(callDate, callValue);
+                recharge rcrg = new recharge(callDate, callCost);
                 this.recharges[i] = rcrg;
-                this.rechargeCredits = this.rechargeCredits + callValue;
+                this.rechargeCredits = this.rechargeCredits + callCost;
             }
+            i++;
         }
     }
     
     public void printInvoice(int invoiceMonth) {
         int i = 0;
         
-        DecimalFormat formater = new DecimalFormat("0.00");
+        DecimalFormat numFormater = new DecimalFormat("0.00");
         
         float invoiceValue = 0;
         float invoiceValueSum = 0;
+        
         float rcrg = 0;
         
-        while (i < callsNum) {
+        float callCost = 0;
+        float callsCostsSum = 0;
+        
+        while (i < callsQuantity) {
             if (this.calls[i].getCallDate().getMonth() == invoiceMonth) {
+                System.out.println(this.toString());
                 invoiceValue = this.calls[i].getCallDuration() * 1.45f;
                 invoiceValueSum = invoiceValue + invoiceValueSum;
-                rcrg = this.recharges[i].getInvoiceValue() + rcrg;
-                System.out.println(this.toString() + this.calls[i]);
-                System.out.println("Call Value: " + formater.format(callValue) + " BRL");
+                System.out.println(this.calls[i]);
+                System.out.println("Call Monetary Cost: " + numFormater.format(callCost) + " BRL");
+            } else {
+                System.out.println(this.toString());
+                System.out.println("There is not call registers from the subscriber during this month.");
             }
         }
-        System.out.println("Calls Total Value: " + formater.format(callValueSum) + " BRL");
+        System.out.println("Calls Total Monetary Costs: " + numFormater.format(callsCostsSum) + " BRL");
         
-        while (i < rechargesNum) {
-            if (this.recharges[i].getCallDate().getMonth() == invoiceMonth) {
+        while (i < rechargesQuantity) {
+            if (this.recharges[i].getRechargeDate().getMonth() == invoiceMonth) {
                 System.out.println(this.recharges[i]);
+                rcrg = this.recharges[i].getRechargeDate().getMonth() + rcrg;
             }
             i++;
         }
-    }
-    
-    public static void main(String[] args) {
-        postPaid posp = new postPaid(08642135798L, "Henry", 998766120);
-        
-        Calendar cal = Calendar.getInstance();
-        cal.set(1991, 02, 20);
-        Date dt = cal.getTime();
-        
-        Calendar calr = Calendar.getInstance();
-        calr.set(2022, 02, 13);
-        Date dte = calr.getTime();
-        
-        posp.recharge(dt, 250);
-        posp.recharge(dte, 500);
-        
-        posp.makeCall(dte, 15);
-        posp.makeCall(dte, 30);
-        
-        posp.printInvoice(09);
+        System.out.println("Recharges Total Monetary Value: " + numFormater.format(rcrg) + " BRL");
+        System.out.println("Credits Total Monetary Value: " + numFormater.format(this.rechargeCredits) + " BRL\n");
     }
 }

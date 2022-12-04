@@ -6,43 +6,26 @@ package telephony;
  */
 
 public class subscriber {
+    protected call[] calls;
+    protected int callsQuantity;
+    
     private long clientCPF;
     private String clientName;
-    private String clientNum;
+    private int clientTel;
     
-    public subscriber(long clientCPF, String clientName, String clientNum) {
+    public subscriber(int clientTel, long clientCPF, String clientName) {
         this.clientCPF = clientCPF;
         this.clientName = clientName;
-        this.clientNum = clientNum;
-    }
-    
-    public void setClientCPF(long clientCPF) {
-        this.clientCPF = clientCPF;
-    }
-    
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-    
-    public void setClientNum(String clientNum) {
-        this.clientNum = clientNum;
+        this.clientTel = clientTel;
+        this.calls = new call[75];
     }
     
     public long getClientCPF() {
         return clientCPF;
     }
     
-    public String getClientName() {
-        return clientName;
-    }
-    
-    public String getClientNum() {
-        return clientNum;
-    }
-    
-    public static String convertToString(long clientCPF, String clientName, String clientNum) {
-        String subscriberData = "The subscriber attributes are: " + "Subscriber: " + clientName + " Subscriber IE/CPF: " + clientCPF + " Subscriber Number: " + clientNum;
-        System.out.println(subscriberData);
-        return subscriberData;
+    @Override
+    public String toString() {
+        return "The subscriber fields are:\n" + "Subscriber: " + clientName + "\nSubscriber IE/CPF: " + clientCPF + "\nSubscriber Tel Num: " + clientTel;
     }
 }

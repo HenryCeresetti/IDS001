@@ -8,26 +8,50 @@ package telephony;
 import java.text.DecimalFormat;
 import java.util.Date;
 
-/*Classe pré-Pago herdando a classe Assinante */
-
 public class prePaid extends subscriber {
     protected float rechargeCredits;
-    protected recharge[] recharges;
-    private recharge[][] recharge;
+    private recharge[] recharges;
     private int rechargesQuantity;
-
-/*Método construtor pré-Pago*/  
-
+    
     public prePaid(long clientCPF, String clientName, int clientTel) {
         super(clientTel, clientCPF, clientName);
-        this.recharges = recharge[300];
+        this.recharges = new recharge[300];
+        this.rechargeCredits = rechargeCredits;
     }
     
-    public int getRechargesQuantity() {
+    public String recharge(Date callDate, float callCost) {
+		this.rechargesQuantity++;
+		for (int i = 0; i < this.rechargesQuantity; i++) {
+			if (this.recharges[i] == null) {
+				recharge r = new recharge(callDate, callCost);
+				this.recharges[i] = r;
+				this.rechargeCredits = this.rechargeCredits + callCost;
+				return "Crédito no valor de R$" + callCost + ",00 inserido.\n";
+			}
+		}
+		return "Crédito não efetuado.\n";
+	}
+    /*public int getRechargesQuantity() {
         return rechargesQuantity;
-    }
+    }*/
+    public String makeCall(Date callDate, int callDuration) {
+		float value = callDuration * 1.45f;
+		this.callsQuantity++;
+		for (int i = 0; i < this.callsQuantity; i++) {
+			if (this.calls[i] == null && this.rechargeCredits > value) {
+					call c = new call(callDate, callDuration);
+					this.calls[i] = c;
+					this.rechargeCredits = this.rechargeCredits - value;
+					return "Chamada concluída.\n";
+			} else if (this.calls[i] == null && this.rechargeCredits < value) {
+				this.callsQuantity--;
+				return "Créditos insuficientes. Recarregue para fazer mais ligações!\n";
+			}
+		}
+		return "Não é possível realizar mais ligações. Limite alcançado.\n";
+	}
     
-    public void makeCall(Date callDate, int callDuration) {
+    /*public void makeCall(Date callDate, int callDuration) {
         int i = 0;
         
         float noCredit = callDuration * 1.45f;
@@ -43,9 +67,9 @@ public class prePaid extends subscriber {
                 System.out.println("You do not have sufficient credits to make this call.");
             }
         }
-    }
+    }*/
     
-    public void recharge(Date callDate, float callCost) {
+    /*public void recharge(Date callDate, float callCost) {
         int i = 0;
         
         this.rechargesQuantity++;
@@ -58,10 +82,8 @@ public class prePaid extends subscriber {
             }
             i++;
         }
-    }
+    }*/
     
-/*Imprime a fatura do respectivo mês e seu valor*/   
-
     public void printInvoice(int invoiceMonth) {
         int i = 0;
         

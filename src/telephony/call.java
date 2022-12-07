@@ -1,59 +1,46 @@
-package telephony;
+package telephony; // "telephony" package identification.
 
 /**
- * @author HenryCeresetti
- * @author OrlandoJunior
- */
+* @author HenryCeresetti
+* @author OrlandoJunior
+*/
 
-/*Importação dos utilitários Objetos e Data */
+import java.util.Objects; // Java Objects utility importing.
+import java.util.Date; // Java Date utility importing.
 
-import java.util.Objects; 
-import java.util.Date; 
-
-
-/* Classe Chamada e seus atributos DATA e DURAÇÃO */
-
+// "call" public class initialization.
 public class call {
-    private Date callDate;
-    private int callDuration;
-
-/* Método construtor CHAMADA tendo como parâmetros DATA e DURAÇÃO */
+    private Date callDate; // "callDate" private field definition. Its type is boxed and can deal with Date tool components.
+    private int callDuration; // "callDuration" private field definition. Its type is primitive and cannot be handled as a object.
     
+    // public "call" constructor method
     public call(Date callDate, int callDuration) {
         super();
-        this.callDate = callDate; 
-        this.callDuration = callDuration;
+        this.callDate = callDate; // first parameter, defined by logical order.
+        this.callDuration = callDuration; // second parameter, through after even its data has primitive type.
     }
     
-    
+    // first getter
     public Date getCallDate() {
-        return callDate; 
+        return callDate; // variable and value returning is required when you indicate any data type in any method.
     }
     
     public int getCallDuration() {
-        return callDuration; 
+        return callDuration; // the previous statement applies here too.
     }
     
-
-    /*Sobrescrita do metodo toString para conversão de expressões e argumentos em um objeto composto */
-    /*O método ToString(), tem como objetivo trazer uma representação textual de uma instância de um objeto. */
-
-    @Override 
+    @Override // Java has already a "toString()" native method. Here occouried a method overriding.
     public String toString() {
         return "The registered call is from the following date: " + callDate + " and its duration is from: " + callDuration; // returns a string with its referred private fields in its respective invocations.
     }
-
-    /*Sobrescrita do metodo hashCode para retornar o método de criação e alocação de novos objetos */
-
+    
     @Override
     // private fields hashing process.
     public int hashCode() {
         return Objects.hash(callDate, callDuration); // "hash()" method usage from Java "Objects" utility.
     }
-
-    /*Sobrescrita do metodo equals fazendo comparações e retornando verdadeiro ou falso */
-
-    @Override
+    
+    @Override // equals method overriding
     public boolean equals(Object objc) {
         if (this == objc) {
             return true;
@@ -70,4 +57,12 @@ public class call {
         call instVar = (call) objc;
         return Objects.equals(callDate, instVar.callDate) && Objects.equals(callDuration, instVar.callDuration);
     }
+
+    /* Object getDate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    Object getData() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    } */
 }

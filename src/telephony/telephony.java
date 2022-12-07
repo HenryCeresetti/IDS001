@@ -9,8 +9,6 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.Date;
 
-/*Classe Telefone*/
-
 public class telephony {
     private int postPaidTels;
     private int prePaidTels;
@@ -97,7 +95,7 @@ public class telephony {
         }
     }
     
-    public void makeRecharge(long clientCPF, float rechargeValue, Date rechargeDate) {
+    public void makeRecharge(int mainOpt, long clientCPF, float rechargeValue, Date rechargeDate) {
         if (this.queryPrePaid(clientCPF) != null) {
             prePaid rcrg = this.queryPrePaid(clientCPF);
             rcrg.recharge(rechargeDate, rechargeValue);
@@ -242,7 +240,7 @@ public class telephony {
                     clientCPF = stdinScanner.nextLong();
                     System.out.print("Type the recharge value: ");
                     rcrg = stdinScanner.nextFloat();
-                    tel.makeRecharge(clientCPF, rcrg, dt);
+                    tel.makeRecharge(mainOpt, clientCPF, rcrg, dt);
                     break;
                 case 5:
                     System.out.print("Type the month at which you would to view some of your invoices: ");

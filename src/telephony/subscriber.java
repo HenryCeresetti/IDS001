@@ -5,8 +5,6 @@ package telephony;
  * @author OrlandoJunior
  */
 
- /*Classe ASSINANTE e seus atributos*/
-
 public class subscriber {
     protected call[] calls;
     protected int callsQuantity;
@@ -14,8 +12,6 @@ public class subscriber {
     private long clientCPF;
     private String clientName;
     private int clientTel;
-
-/*Método construtor ASSINANTE e seus parâmetros*/    
     
     public subscriber(int clientTel, long clientCPF, String clientName) {
         this.clientCPF = clientCPF;

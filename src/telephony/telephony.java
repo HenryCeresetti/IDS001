@@ -17,13 +17,12 @@ public class telephony {
     
     public telephony() {
         super();
-        this.postPaids = new postPaid[300];
+        this.postPaids = new postPaid[150];
         this.prePaids = new prePaid[150];
     }
     
-    public void signUpSubscriber(String clientName, long clientCPF, int clientTel, float clientSubscription) {
+    public void signUpSubscriber(int opt, long clientCPF, String clientName, int clientTel, float clientSubscription) {
         int i = 0;
-        int opt = 0;
         
         if (opt == 1) {
             this.postPaidTels++;
@@ -36,6 +35,7 @@ public class telephony {
                 }
                 i++;
             }
+        
         } else if (opt == 2) {
             this.prePaidTels++;
             
@@ -70,9 +70,7 @@ public class telephony {
         } 
     }
     
-    public void makeCall(long clientCPF, Date callDate, int callDuration) {
-        int opt = 0;
-        
+    public void makeCall(int opt, long clientCPF, Date callDate, int callDuration) {
         switch (opt) {
             case 1:
                 if (this.queryPostPaid(clientCPF) != null) {
@@ -92,7 +90,7 @@ public class telephony {
                 }
                 break;
             default:
-                System.out.println("Select another option.");
+                System.out.print("Select another option.");
                 break;
         }
     }
@@ -107,29 +105,28 @@ public class telephony {
         }
     }
     
-    public prePaid queryPrePaid(long clientCPF) {
+    public postPaid queryPostPaid(long clientCPF) {
         int i = 0;
         
-        while (i < prePaidTels) {
-            if (this.prePaids[i] != null) {
-                if (this.prePaids[i].getClientCPF() == clientCPF) {
-                    return this.prePaids[i];
-                }
-                i++;
+        while (i <= postPaidTels) {
+            if (this.postPaids[i] != null) {
+                if (this.postPaids[i].getClientCPF() == clientCPF) {
+                    return this.postPaids[i];
                 } else {
-                    return null;
+                    i++;
                 }
+            }
         }
         return null;
     }
     
-    public postPaid queryPostPaid(long clientCPF) {
+    public prePaid queryPrePaid(long clientCPF) {
         int i = 0;
         
-        while (i < postPaidTels) {
-            if (this.postPaids[i] != null) {
-                if (this.postPaids[i].getClientCPF() == clientCPF) {
-                    return this.postPaids[i];
+        while (i <= prePaidTels) {
+            if (this.prePaids[i] != null) {
+                if (this.prePaids[i].getClientCPF() == clientCPF) {
+                    return this.prePaids[i];
                 } else {
                     i++;
                 }
@@ -143,6 +140,18 @@ public class telephony {
         
         DecimalFormat numFormater = new DecimalFormat("0.00");
         
+        while (i < postPaidTels) {
+            if (this.postPaids[i].callsQuantity > 0) {
+                this.postPaids[i].printInvoice(invoiceMonth);
+            } else {
+                System.out.println("Post Paid Subscriber Invoice:\n");
+                System.out.println(this.postPaids[i]);
+                System.out.println("The subscriber does not made calls in this month.");
+                System.out.println("Subscriber: " + numFormater.format(this.postPaids[i].clientSubscription));
+                System.out.println("Invoice Value: " + numFormater.format(this.postPaids[i].clientSubscription + "\n"));
+            }
+        }
+        
         while (i < prePaidTels) {
             if (this.prePaids[i].callsQuantity > 0) {
                 this.prePaids[i].printInvoice(invoiceMonth);
@@ -153,12 +162,6 @@ public class telephony {
                 System.out.println("Recharge Credits: " + numFormater.format(this.prePaids[i].rechargeCredits) + " BRL\n");
             }
         }
-        
-        while (i < postPaidTels) {
-            if (this.postPaids[i].callsQuantity > 0) {
-                this.postPaids[i].printInvoice(invoiceMonth);
-            }
-        }
     }
     
     public static void main(String[] args) {
@@ -166,7 +169,6 @@ public class telephony {
         
         Date dt = new Date();
         
-        @SuppressWarnings("resource")
         Scanner stdinScanner = new Scanner(System.in);
         
         long clientCPF = 0;
@@ -184,16 +186,19 @@ public class telephony {
         
         int initOpt = 0;
         int mainOpt = 0;
-                
+        
         while (initOpt != 6) {
-            System.out.println("Type an option:\n" + "1. Sign up subscriber\n" + "2. Show subscribers\n" + "3. Make a call\n" + "4. Make a recharge\n" + "5. Print an invoice\n" + "6. Exit.");
+            System.out.print("Type an option:\n" + "1. Sign up subscriber\n" + "2. Show subscribers\n" + "3. Make a call\n" + "4. Make a recharge\n" + "5. Print an invoice\n" + "6. Exit.\n");
             
             initOpt = stdinScanner.nextInt();
             
+            System.out.println();
+            
             switch (initOpt) {
                 case 1:
-                    System.out.println("The subscription is from:\n" + "1. Post Paid\n" + "2. Pre Paid.");
+                    System.out.print("The subscription is from:\n" + "1. Post Paid\n" + "2. Pre Paid.\n");
                     mainOpt = stdinScanner.nextInt();
+                    System.out.println();
                 switch (mainOpt) {
                     case 1:
                         System.out.print("Client IE/CPF: ");
@@ -206,7 +211,7 @@ public class telephony {
                         clientSubscription = stdinScanner.nextFloat();
                         break;
                     case 2:
-                        System.out.println("Client IE/CPF: ");
+                        System.out.print("Client IE/CPF: ");
                         clientCPF = stdinScanner.nextLong();
                         System.out.print("Client Name: ");
                         clientName = stdinScanner.next();
@@ -214,23 +219,21 @@ public class telephony {
                         clientTel = stdinScanner.nextInt();
                         break;
                     default:
-                        System.out.print("Select another option.");
+                        System.out.print("Select another option: " + mainOpt);
                         break;
                 }
-                    tel.signUpSubscriber(clientName, clientCPF, clientTel, clientSubscription);
+                    tel.signUpSubscriber(mainOpt, clientCPF, clientName, clientTel, clientSubscription);
                     break;
-
                 case 2:
                     tel.sortSubscribers();
                     break;
                 case 3:
-                    System.out.print("Is it your subscription...?\n1. Post Paid\n2. Pre Paid");
-                    mainOpt = stdinScanner.nextInt();
+                    System.out.print("Is it your subscription...?\n1. Post Paid\n2. Pre Paid\n" + mainOpt);
                     System.out.print("Type your IE/CPF: ");
                     clientCPF = stdinScanner.nextLong();
                     System.out.print("Type the call duration: ");
                     callDuration = stdinScanner.nextInt();
-                    tel.makeCall(clientCPF, dt, callDuration);
+                    tel.makeCall(mainOpt, clientCPF, dt, callDuration);
                     break;
                 case 4:
                     System.out.print("Type your IE/CPF: ");

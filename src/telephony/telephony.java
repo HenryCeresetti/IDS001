@@ -9,6 +9,8 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.Date;
 
+/*Classe Telefone*/
+
 public class telephony {
     private int postPaidTels;
     private int prePaidTels;

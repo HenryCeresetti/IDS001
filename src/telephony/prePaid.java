@@ -8,12 +8,16 @@ package telephony;
 import java.text.DecimalFormat;
 import java.util.Date;
 
+/*Classe pré-Pago herdando a classe Assinante */
+
 public class prePaid extends subscriber {
     protected float rechargeCredits;
     protected recharge[] recharges;
     private recharge[][] recharge;
     private int rechargesQuantity;
-    
+
+/*Método construtor pré-Pago*/  
+
     public prePaid(long clientCPF, String clientName, int clientTel) {
         super(clientTel, clientCPF, clientName);
         this.recharges = recharge[300];
@@ -56,6 +60,8 @@ public class prePaid extends subscriber {
         }
     }
     
+/*Imprime a fatura do respectivo mês e seu valor*/   
+
     public void printInvoice(int invoiceMonth) {
         int i = 0;
         

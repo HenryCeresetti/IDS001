@@ -8,8 +8,12 @@ package telephony;
 import java.text.DecimalFormat;
 import java.util.Date;
 
+/*Classe pós-Pago herdando a classe Assinante*/
+
 public class postPaid extends subscriber {
     protected float clientSubscription;
+
+/*Método construtor pós-Pago com seus parâmetros (CPF, NOME e código de ASSINANTE) e fazer CHAMADA*/
     
     public postPaid(int clientTel, long clientCPF, String clientName, float clientSubscription) {
         super(clientTel, clientCPF, clientName);
@@ -26,7 +30,7 @@ public class postPaid extends subscriber {
             this.calls[i] = call;
         }
     }
-    
+/*Imprime a fatura do mês com os dados do cliente e o valor */
     public void printInvoice(int invoiceMonth) {
         int i = 0;
         
